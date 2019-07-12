@@ -1,29 +1,32 @@
 def read_file(filename):
 	data = []
-	with open(filename, 'r', encoding='utf-8') as f:
+	with open(filename, 'r', encoding='utf-8-sig') as f:
 		for line in f:
-			line = line.strip()
-			data.append(line)
+			data.append(line.strip())
 	return data
 
 
-def transform(data):
+def convert(data):
 	output = []
+	person = None
 	for d in data:
-		if 'Allen' in d or 'Tom' in d:
-			speaker = d
+		if d == 'Allen' or d == 'Tom':
+			person = d
 			continue
 		else:
-			output.append(speaker + ':' + d)
+			if person:
+				output.append(person + ':' + d)
 	return output
 
 
-def write_file(filename, output):
+def write_file(filename, output, encoding='utf-8'):
 	with open(filename, 'w') as f:
 		for out in output:
 			f.write(out + '\n')
 
+def main():
+	data = read_file('input.txt')
+	output = convert(data)
+	write_file('output.txt', output)
 
-data = read_file('input.txt')
-output = transform(data)
-write_file('output.txt', output)
+main()
